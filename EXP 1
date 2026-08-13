@@ -1,0 +1,74 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+int isOperator(char ch)
+{
+    return (ch == '+' || ch == '-' || ch == '*' || ch == '/' ||
+            ch == '%' || ch == '=' || ch == '<' || ch == '>' ||
+            ch == '!');
+}
+
+int main()
+{
+    char input[200];
+    int i = 0;
+
+    printf("Enter an expression: ");
+    fgets(input, sizeof(input), stdin);
+
+    while (input[i] != '\0')
+    {
+        
+        if (isspace(input[i]))
+        {
+            i++;
+            continue;
+        }
+
+        
+        if (isalpha(input[i]) || input[i] == '_')
+        {
+            char id[50];
+            int j = 0;
+
+            while (isalnum(input[i]) || input[i] == '_')
+            {
+                id[j++] = input[i++];
+            }
+            id[j] = '\0';
+
+            printf("%s --> Identifier\n", id);
+        }
+
+        
+        else if (isdigit(input[i]))
+        {
+            char num[50];
+            int j = 0;
+
+            while (isdigit(input[i]))
+            {
+                num[j++] = input[i++];
+            }
+            num[j] = '\0';
+
+            printf("%s --> Constant\n", num);
+        }
+
+        
+        else if (isOperator(input[i]))
+        {
+            printf("%c --> Operator\n", input[i]);
+            i++;
+        }
+
+        
+        else
+        {
+            i++;
+        }
+    }
+
+    return 0;
+}
