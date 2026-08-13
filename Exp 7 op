@@ -1,0 +1,54 @@
+#include <stdio.h>
+#include <ctype.h>
+
+char production[10][20];
+char first[20];
+int count = 0, n;
+
+void findFirst(char c)
+{
+    int i;
+
+    if (!isupper(c))
+    {
+        first[count++] = c;
+        return;
+    }
+
+    for (i = 0; i < n; i++)
+    {
+        if (production[i][0] == c)
+        {
+            if (production[i][2] == '$')
+                first[count++] = '$';
+            else
+                findFirst(production[i][2]);
+        }
+    }
+}
+
+int main()
+{
+    int i;
+    char ch;
+
+    printf("Enter number of productions: ");
+    scanf("%d", &n);
+
+    printf("Enter productions (Example: E=a):\n");
+    for (i = 0; i < n; i++)
+        scanf("%s", production[i]);
+
+    printf("Enter the Non-Terminal: ");
+    scanf(" %c", &ch);
+
+    count = 0;
+    findFirst(ch);
+
+    printf("FIRST(%c) = { ", ch);
+    for (i = 0; i < count; i++)
+        printf("%c ", first[i]);
+    printf("}\n");
+
+    return 0;
+}
