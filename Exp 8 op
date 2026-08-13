@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+char production[10][20];
+char follow[20];
+int n, count = 0;
+
+void findFollow(char c)
+{
+    int i, j;
+
+    if (production[0][0] == c)
+        follow[count++] = '$';
+
+    for (i = 0; i < n; i++)
+    {
+        for (j = 2; production[i][j] != '\0'; j++)
+        {
+            if (production[i][j] == c)
+            {
+                if (production[i][j + 1] != '\0')
+                    follow[count++] = production[i][j + 1];
+                else if (production[i][0] != c)
+                    findFollow(production[i][0]);
+            }
+        }
+    }
+}
+
+int main()
+{
+    int i;
+    char ch;
+
+    printf("Enter number of productions: ");
+    scanf("%d", &n);
+
+    printf("Enter productions (Example: S=AB):\n");
+    for (i = 0; i < n; i++)
+        scanf("%s", production[i]);
+
+    printf("Enter the Non-Terminal: ");
+    scanf(" %c", &ch);
+
+    count = 0;
+    findFollow(ch);
+
+    printf("FOLLOW(%c) = { ", ch);
+    for (i = 0; i < count; i++)
+        printf("%c ", follow[i]);
+    printf("}\n");
+
+    return 0;
+}
