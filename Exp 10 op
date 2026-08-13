@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+    char nonTerminal;
+    char production1[50], production2[50];
+    char common[50], rem1[50], rem2[50];
+    int i = 0, j = 0, k = 0;
+
+    printf("Enter Non-Terminal: ");
+    scanf(" %c", &nonTerminal);
+
+    printf("Enter first production: ");
+    scanf("%s", production1);
+
+    printf("Enter second production: ");
+    scanf("%s", production2);
+
+    while (production1[i] == production2[i] && production1[i] != '\0')
+    {
+        common[k++] = production1[i];
+        i++;
+    }
+
+    common[k] = '\0';
+
+    if (strlen(common) > 0)
+    {
+        strcpy(rem1, &production1[k]);
+        strcpy(rem2, &production2[k]);
+
+        printf("\nGrammar after Left Factoring:\n");
+        printf("%c -> %s%c'\n", nonTerminal, common, nonTerminal);
+        printf("%c' -> %s | %s\n", nonTerminal, rem1, rem2);
+    }
+    else
+    {
+        printf("\nNo Left Factoring required.\n");
+        printf("%c -> %s | %s\n", nonTerminal, production1, production2);
+    }
+
+    return 0;
+}
