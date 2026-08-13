@@ -1,0 +1,52 @@
+#include <stdio.h>
+
+int main()
+{
+    char ch, prev = 0;
+
+    while ((ch = getchar()) != EOF)
+    {
+        if (ch == '/')
+        {
+            char next = getchar();
+
+            if (next == '/')
+            {
+                while ((ch = getchar()) != '\n' && ch != EOF);
+                continue;
+            }
+            else if (next == '*')
+            {
+                char p = 0;
+                while ((ch = getchar()) != EOF)
+                {
+                    if (p == '*' && ch == '/')
+                        break;
+                    p = ch;
+                }
+                continue;
+            }
+            else
+            {
+                putchar(ch);
+                ch = next;
+            }
+        }
+
+        if (ch == ' ' || ch == '\t' || ch == '\n')
+        {
+            if (prev != ' ')
+            {
+                putchar(' ');
+                prev = ' ';
+            }
+        }
+        else
+        {
+            putchar(ch);
+            prev = ch;
+        }
+    }
+
+    return 0;
+}
